@@ -29,8 +29,9 @@ class PostArticleController
 
         // add code...
 
-        return $app->render('PostArticle/Resource/template/index.twig', array(
+        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
             // add parameter...
+            'hello' => 'Hello_World',
         ));
     }
 

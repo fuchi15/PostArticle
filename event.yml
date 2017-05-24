@@ -1,0 +1,2 @@
+admin.order.edit.index.initialize:
+    - [onAdminOrderEditIndexInitialize, NORMAL]

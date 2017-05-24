@@ -29,6 +29,7 @@ class PostArticleServiceProvider implements ServiceProviderInterface
 
         // 独自コントローラ
         $app->match('/plugin/postarticle/hello', 'Plugin\PostArticle\Controller\PostArticleController::index')->bind('plugin_PostArticle_hello');
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/post', '\Plugin\PostArticle\Controller\PostArticleController::index')->bind('postArticle_addPost');
 
         // Form
         $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
@@ -41,6 +42,25 @@ class PostArticleServiceProvider implements ServiceProviderInterface
 
         // Service
 
+        // 管理メニュー
+        $app['config'] = $app->share($app->extend('config', function ($config) {
+            $head = array_slice($config['nav'], 0, 4);
+            $tail = array_slice($config['nav'], 4);
+            $append = array(array(
+                'id' => 'postArticle',
+                'name' => '記事の投稿',
+                'has_child' => 'true',
+                'child' => array(
+                    array(
+                        'id' => 'postArticle_addpost',
+                        'name' => '新規登録',
+                        'url' => 'postArticle_addPost'
+                    ),
+                )
+            ));
+            $config['nav'] = array_merge($head, $append, $tail);
+            return $config;
+        }));
         // メッセージ登録
         // $file = __DIR__ . '/../Resource/locale/message.' . $app['locale'] . '.yml';
         // $app['translator']->addResource('yaml', $file, $app['locale']);
