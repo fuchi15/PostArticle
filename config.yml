@@ -1,0 +1,7 @@
+name: 記事投稿
+code: PostArticle
+version: 1.0.0
+service:
+    - PostArticleServiceProvider
+orm.path:
+    - /Resource/doctrine
