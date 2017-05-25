@@ -27,11 +27,17 @@ class PostArticleController
     public function index(Application $app, Request $request)
     {
 
-        // add code...
-
         return $app->render('PostArticle/Resource/template/admin/index.twig', array(
             // add parameter...
             'hello' => 'Hello_World',
+        ));
+    }
+    public function store(Application $app, Request $request)
+    {
+        dump($request);
+        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
+            // add parameter...
+            'hello' => 'bay',
         ));
     }
 

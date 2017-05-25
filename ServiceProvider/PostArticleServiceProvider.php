@@ -29,12 +29,11 @@ class PostArticleServiceProvider implements ServiceProviderInterface
 
         // 独自コントローラ
         $app->match('/plugin/postarticle/hello', 'Plugin\PostArticle\Controller\PostArticleController::index')->bind('plugin_PostArticle_hello');
-        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/post', '\Plugin\PostArticle\Controller\PostArticleController::index')->bind('postArticle_addPost');
-
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/index', '\Plugin\PostArticle\Controller\PostArticleController::index')->bind('postArticle_index');
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/store', '\Plugin\PostArticle\Controller\PostArticleController::store')->bind('postArticle_store');
         // Form
         $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
             $types[] = new PostArticleConfigType();
-
             return $types;
         }));
 
@@ -52,53 +51,16 @@ class PostArticleServiceProvider implements ServiceProviderInterface
                 'has_child' => 'true',
                 'child' => array(
                     array(
-                        'id' => 'postArticle_addpost',
+                        'id' => 'postArticle_index',
                         'name' => '新規登録',
-                        'url' => 'postArticle_addPost'
+                        'url' => 'postArticle_index'
                     ),
                 )
             ));
             $config['nav'] = array_merge($head, $append, $tail);
             return $config;
         }));
-        // メッセージ登録
-        // $file = __DIR__ . '/../Resource/locale/message.' . $app['locale'] . '.yml';
-        // $app['translator']->addResource('yaml', $file, $app['locale']);
 
-        // load config
-        // プラグイン独自の定数はconfig.ymlの「const」パラメータに対して定義し、$app['postarticleconfig']['定数名']で利用可能
-        // if (isset($app['config']['PostArticle']['const'])) {
-        //     $config = $app['config'];
-        //     $app['postarticleconfig'] = $app->share(function () use ($config) {
-        //         return $config['PostArticle']['const'];
-        //     });
-        // }
-
-        // ログファイル設定
-        $app['monolog.logger.postarticle'] = $app->share(function ($app) {
-
-            $logger = new $app['monolog.logger.class']('postarticle');
-
-            $filename = $app['config']['root_dir'].'/app/log/postarticle.log';
-            $RotateHandler = new RotatingFileHandler($filename, $app['config']['log']['max_files'], Logger::INFO);
-            $RotateHandler->setFilenameFormat(
-                'postarticle_{date}',
-                'Y-m-d'
-            );
-
-            $logger->pushHandler(
-                new FingersCrossedHandler(
-                    $RotateHandler,
-                    new ErrorLevelActivationStrategy(Logger::ERROR),
-                    0,
-                    true,
-                    true,
-                    Logger::INFO
-                )
-            );
-
-            return $logger;
-        });
 
     }
 

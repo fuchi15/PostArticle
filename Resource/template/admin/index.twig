@@ -7,6 +7,18 @@
     <div class="row">
         <div class="col-md-12">
             <p class="text-danger">{{ hello }}</p>
+            <form method="post" action="store">
+                <p>タイトル</p>
+                <input type="text" name="title">
+                <p>内容</p>
+                <textarea name="content"></textarea>
+                <p>ステータス</p>
+                <select name="status">
+                    <option value="open">公開</option>
+                    <option value="close">非公開</option>
+                </select>
+                <button type="submit" style="width: 300px;border: 1px solid black;">登録</button>
+            </form>
         </div>
     </div>
 {% endblock %}

@@ -11,24 +11,21 @@
 
 namespace Plugin\PostArticle\Form\Type;
 
+use Eccube\Application\ApplicationTrait;
+use Plugin\PostArticle\Entity\PostArticle;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PostArticleConfigType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', 'text', array(
-                'label' => '項目A',
-                'required' => true,
-                'constraints' => array(
-                    new Assert\NotBlank(),
-                ),
-            ));
+
     }
 
     public function getName()
