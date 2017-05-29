@@ -11,10 +11,15 @@
 
 namespace Plugin\PostArticle\Controller;
 
-use Eccube\Application;
-use Symfony\Component\HttpFoundation\Request;
 
-class PostArticleController
+use Eccube\Application;
+use Eccube\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Plugin\PostArticle\Entity\PostArticle;
+use Plugin\PayJp\Entity;
+
+
+class PostArticleController extends AbstractController
 {
 
     /**
@@ -27,17 +32,37 @@ class PostArticleController
     public function index(Application $app, Request $request)
     {
 
+        $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
+
         return $app->render('PostArticle/Resource/template/admin/index.twig', array(
             // add parameter...
             'hello' => 'Hello_World',
+            'form' => $form->createView(),
         ));
     }
     public function store(Application $app, Request $request)
     {
-        dump($request);
+
+        $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $article = new PostArticle();
+
+            $article->setPostTitle($data['title']);
+            $article->setPostContent($data['content']);
+//            dump($article);
+            $em = $app['orm.em'];
+            $em->persist($article);
+            $em->flush();
+
+
+        }
         return $app->render('PostArticle/Resource/template/admin/index.twig', array(
             // add parameter...
             'hello' => 'bay',
+            'form' => $form->createView(),
         ));
     }
 

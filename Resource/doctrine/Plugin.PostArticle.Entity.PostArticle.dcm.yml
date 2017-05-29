@@ -6,26 +6,18 @@ Plugin\PostArticle\Entity\PostArticle:
         id:
             type: integer
             nullable: false
-            options:
-                unsigned: true
             id: true
-            column: post_id
+            column: id
             generator:
-                strategy: NONE
+                 strategy: AUTO
     fields:
-        post_data:
-            type: datetime
-            nullable: false
         post_title:
             type: text
             nullable: false
         post_content:
             type: text
             nullable: false
-        post_status:
-            type: boolean
-            nullable: false
-        post_author:
-            type: integer
-            nullable: false
+        created_at:
+            type: datetime
+            nullable: true
     lifecycleCallbacks: {  }

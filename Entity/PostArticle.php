@@ -2,14 +2,29 @@
 
 namespace Plugin\PostArticle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use Eccube\Entity\Customer;
+use Eccube\Util\EntityUtil;
+
 class PostArticle extends \Eccube\Entity\AbstractEntity
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
-    private $post_data;
     private $post_title;
     private $post_content;
-    private $post_status;
-    private $post_author;
+    private $created_at;
+
+    public function __construct()
+    {
+        $this->created_at = new DateTime();
+    }
 
     public function getId()
     {
@@ -19,18 +34,6 @@ class PostArticle extends \Eccube\Entity\AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getPostData()
-    {
-        return $this->post_data;
-    }
-
-    public function setPostData($post_data)
-    {
-        $this->post_data = $post_data;
 
         return $this;
     }
@@ -59,27 +62,20 @@ class PostArticle extends \Eccube\Entity\AbstractEntity
         return $this;
     }
 
-    public function getPostStatus()
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
     {
-        return $this->post_status;
+        return $this->created_at;
     }
 
-    public function setPostStatus($post_status)
+    /**
+     * @param mixed $created_at
+     */
+    public function setCreatedAt($created_at)
     {
-        $this->post_status = $post_status;
-
-        return $this;
+        $this->created_at = $created_at;
     }
 
-    public function getPostAuthor()
-    {
-        return $this->post_author;
-    }
-
-    public function setPostAuthor($post_author)
-    {
-        $this->post_author = $post_author;
-
-        return $this;
-    }
 }
