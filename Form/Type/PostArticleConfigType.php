@@ -28,6 +28,7 @@ class PostArticleConfigType extends AbstractType
         $builder
             ->add('title','text')
             ->add('content', 'textarea')
+            ->add('author', 'integer')
             ->add('save','submit');
     }
 

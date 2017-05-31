@@ -7,7 +7,7 @@
     {% macro tree(Article) %}
         <li>
             <a href="{{ url('PostArticle_detail', { 'id': Article.id }) }}">
-                {{ Article.post_title }}
+                {{ Article.title }}
             </a>
         </li>
     {% endmacro %}

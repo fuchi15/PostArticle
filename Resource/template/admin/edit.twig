@@ -1,0 +1,16 @@
+{# default_frame.twigを継承して共通のヘッダー、フッターを表示するにはdtb_page_layout に登録が必要 #}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'postarticle_page' %}
+
+{% block main %}
+    {{ hello }}
+    {{ form_start(form, {'action': url('admin_PostArticle_edit',{'id': article.id}), 'methods': 'post'}) }}
+    <p>タイトル</p>
+    {{ form_widget(form.title ,{'value': article.title}) }}
+    <p>コンテンツ</p>
+    {{ form_widget(form.content ,{'value': article.content}) }}
+    <p>作成者</p>
+    {{ form_widget(form.author ,{'value': article.author}) }}
+    {{ form_end(form) }}
+{% endblock %}

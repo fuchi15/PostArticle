@@ -11,11 +11,14 @@ Plugin\PostArticle\Entity\PostArticle:
             generator:
                  strategy: AUTO
     fields:
-        post_title:
+        title:
             type: text
             nullable: false
-        post_content:
+        content:
             type: text
+            nullable: false
+        author:
+            type: integer
             nullable: false
         created_at:
             type: datetime

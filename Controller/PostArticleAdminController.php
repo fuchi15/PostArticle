@@ -40,6 +40,7 @@ class PostArticleAdminController extends AbstractController
             'form' => $form->createView(),
         ));
     }
+
     public function store(Application $app, Request $request)
     {
 
@@ -49,8 +50,9 @@ class PostArticleAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $article = new PostArticle();
-            $article->setPostTitle($data['title']);
-            $article->setPostContent($data['content']);
+            $article->setTitle($data['title']);
+            $article->setContent($data['content']);
+            $article->setAuthor(2);
             $em = $app['orm.em'];
             $em->persist($article);
             $em->flush();
@@ -63,4 +65,35 @@ class PostArticleAdminController extends AbstractController
         ));
     }
 
+    public function list(Application $app, Request $request)
+    {
+        $articles = $app['postarticle.repository.postarticle']->getList();
+
+        return $app->render('PostArticle/Resource/template/admin/list.twig', array(
+            // add parameter...
+            'hello' => 'Admin List',
+            'articles' => $articles
+        ));
+    }
+
+    public function edit(Application $app, Request $request, $id)
+    {
+        $article = $app['postarticle.repository.postarticle']->getArticle($id);
+
+        // $postedDate = $article->getCreateDate();
+
+        $form = $app['form.factory']->createBuilder('postarticle_config',$article)->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $app['postarticle.repository.postarticle']->save($article);
+        }
+        return $app->render('PostArticle/Resource/template/admin/edit.twig', array(
+            // add parameter...
+            'hello' => 'Admin edit',
+            'form' => $form->createView(),
+            'article' => $article
+        ));
+    }
 }

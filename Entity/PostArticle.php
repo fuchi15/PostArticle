@@ -17,8 +17,9 @@ class PostArticle extends \Eccube\Entity\AbstractEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    private $post_title;
-    private $post_content;
+    private $title;
+    private $content;
+    private $author;
     private $created_at;
 
     public function __construct()
@@ -38,26 +39,38 @@ class PostArticle extends \Eccube\Entity\AbstractEntity
         return $this;
     }
 
-    public function getPostTitle()
+    public function getTitle()
     {
-        return $this->post_title;
+        return $this->title;
     }
 
-    public function setPostTitle($post_title)
+    public function setTitle($title)
     {
-        $this->post_title = $post_title;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getPostContent()
+    public function getContent()
     {
-        return $this->post_content;
+        return $this->content;
     }
 
-    public function setPostContent($content)
+    public function setContent($content)
     {
-        $this->post_content = $content;
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
 
         return $this;
     }

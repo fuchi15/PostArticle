@@ -1,0 +1,25 @@
+{# default_frame.twigを継承して共通のヘッダー、フッターを表示するにはdtb_page_layout に登録が必要 #}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'postarticle_page' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            {% macro tree(Article) %}
+                <li>
+                    <a href="{{ url('admin_PostArticle_edit', { 'id': Article.id }) }}">
+                        {{ Article.title }}
+                    </a>
+                </li>
+            {% endmacro %}
+
+            {{ hello }}
+            <ul class="nav">
+                {% for Article in articles %}
+                    {{ _self.tree(Article) }}
+                {% endfor %}
+            </ul> <!-- category-nav -->
+        </div>
+    </div>
+{% endblock %}
