@@ -13,57 +13,33 @@ namespace Plugin\PostArticle\Controller;
 
 
 use Eccube\Application;
-use Eccube\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Request;
 use Plugin\PostArticle\Entity\PostArticle;
-use Plugin\PayJp\Entity;
+use Plugin\PostArticle\Entity;
 
 
-class PostArticleController extends AbstractController
+class PostArticleController
 {
-
-    /**
-     * PostArticle画面
-     *
-     * @param Application $app
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function index(Application $app, Request $request)
     {
+        $articles = $app['postarticle.repository.postarticle']->getList();
 
-        $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
-
-        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
+        return $app->render('PostArticle/Resource/template/list.twig', array(
             // add parameter...
-            'hello' => 'Hello_World',
-            'form' => $form->createView(),
+            'hello' => 'List',
+            'Articles' => $articles
         ));
     }
-    public function store(Application $app, Request $request)
+
+    public function detail(Application $app, Request $request, $id)
     {
-
-        $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $article = new PostArticle();
-
-            $article->setPostTitle($data['title']);
-            $article->setPostContent($data['content']);
-//            dump($article);
-            $em = $app['orm.em'];
-            $em->persist($article);
-            $em->flush();
-
-
-        }
-        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
+        $article = $app['postarticle.repository.postarticle']->getArticle($id);
+        
+        return $app->render('PostArticle/Resource/template/detail.twig', array(
             // add parameter...
-            'hello' => 'bay',
-            'form' => $form->createView(),
+            'hello' => 'Detail',
+            'article' => $article
         ));
     }
-
 }

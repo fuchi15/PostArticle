@@ -27,10 +27,15 @@ class PostArticleServiceProvider implements ServiceProviderInterface
         // プラグイン用設定画面
         $app->match('/'.$app['config']['admin_route'].'/plugin/PostArticle/config', 'Plugin\PostArticle\Controller\ConfigController::index')->bind('plugin_PostArticle_config');
 
+        $app['postarticle.repository.postarticle'] = $app->share(function () use ($app) {
+            return $app['orm.em']->getRepository('Plugin\PostArticle\Entity\PostArticle');
+        });
+
         // 独自コントローラ
-        $app->match('/plugin/postarticle/hello', 'Plugin\PostArticle\Controller\PostArticleController::index')->bind('plugin_PostArticle_hello');
-        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/index', '\Plugin\PostArticle\Controller\PostArticleController::index')->bind('postArticle_index');
-        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/store', '\Plugin\PostArticle\Controller\PostArticleController::store')->bind('postArticle_store');
+        $app->match('/postarticle/list', 'Plugin\PostArticle\Controller\PostArticleController::index')->bind('PostArticle_list');
+        $app->match('/postarticle/detail/{id}','Plugin\PostArticle\Controller\PostArticleController::detail')->assert('id', '\d+')->bind('PostArticle_detail');
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/index', '\Plugin\PostArticle\Controller\PostArticleAdminController::index')->bind('PostArticle_index');
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/store', '\Plugin\PostArticle\Controller\PostArticleAdminController::store')->bind('PostArticle_store');
         // Form
         $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
             $types[] = new PostArticleConfigType();
