@@ -43,12 +43,16 @@ class PostArticleAdminController extends AbstractController
 
     public function store(Application $app, Request $request)
     {
+        $hello = 'Hello';
 
         $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $content = $data["content"];
+            $content = str_replace('\"', 'b', $content);
+  
             $article = new PostArticle();
             $article->setTitle($data['title']);
             $article->setContent($data['content']);
@@ -57,10 +61,11 @@ class PostArticleAdminController extends AbstractController
             $em->persist($article);
             $em->flush();
 
+            $hello = 'Complate';
         }
         return $app->render('PostArticle/Resource/template/admin/index.twig', array(
             // add parameter...
-            'hello' => 'bay',
+            'hello' => $hello,
             'form' => $form->createView(),
         ));
     }

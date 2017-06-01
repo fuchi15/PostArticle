@@ -13,4 +13,13 @@
     <p>作成者</p>
     {{ form_widget(form.author ,{'value': article.author}) }}
     {{ form_end(form) }}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+    <script type="text/javascript">
+    tinymce.init({
+
+        selector: 'textarea',
+    });
+
+    </script>
 {% endblock %}

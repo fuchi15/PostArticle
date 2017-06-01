@@ -32,7 +32,6 @@ class PostArticleServiceProvider implements ServiceProviderInterface
         $app->match('/postarticle/list', 'Plugin\PostArticle\Controller\PostArticleController::index')->bind('PostArticle_list');
         $app->match('/postarticle/detail/{id}','Plugin\PostArticle\Controller\PostArticleController::detail')->assert('id', '\d+')->bind('PostArticle_detail');
         //管理ページ
-        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/index', '\Plugin\PostArticle\Controller\PostArticleAdminController::index')->bind('admin_PostArticle_index');
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/store', '\Plugin\PostArticle\Controller\PostArticleAdminController::store')->bind('admin_PostArticle_store');
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/list', '\Plugin\PostArticle\Controller\PostArticleAdminController::list')->bind('admin_PostArticle_list');
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/edit/{id}', '\Plugin\PostArticle\Controller\PostArticleAdminController::edit')->assert('id', '\d+')->bind('admin_PostArticle_edit');
@@ -66,7 +65,7 @@ class PostArticleServiceProvider implements ServiceProviderInterface
                     array(
                         'id' => 'admin_PostArticle_store',
                         'name' => '新規登録',
-                        'url' => 'admin_PostArticle_index'
+                        'url' => 'admin_PostArticle_store'
                     )
                 )
             ));

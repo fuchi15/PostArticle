@@ -35,11 +35,18 @@ class PostArticleController
     public function detail(Application $app, Request $request, $id)
     {
         $article = $app['postarticle.repository.postarticle']->getArticle($id);
+        // $content = html_entity_decode($article["content"],ENT_QUOTES);
+        // $content = htmlspecialchars($aritlce["content"]);
         
+        $content = $article["content"];
+        
+        // $content = strip_tags($content);
+       
         return $app->render('PostArticle/Resource/template/detail.twig', array(
             // add parameter...
             'hello' => 'Detail',
-            'article' => $article
+            'article' => $article,
+            'content' => $content
         ));
     }
 }
