@@ -29,17 +29,6 @@ class PostArticleAdminController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Application $app, Request $request)
-    {
-
-        $form = $app['form.factory']->createBuilder('postarticle_config')->getForm();
-
-        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
-            // add parameter...
-            'hello' => 'Hello_World',
-            'form' => $form->createView(),
-        ));
-    }
 
     public function store(Application $app, Request $request)
     {
@@ -50,9 +39,6 @@ class PostArticleAdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $content = $data["content"];
-            $content = str_replace('\"', 'b', $content);
-  
             $article = new PostArticle();
             $article->setTitle($data['title']);
             $article->setContent($data['content']);
@@ -63,7 +49,7 @@ class PostArticleAdminController extends AbstractController
 
             $hello = 'Complate';
         }
-        return $app->render('PostArticle/Resource/template/admin/index.twig', array(
+        return $app->render('PostArticle/Resource/template/admin/store.twig', array(
             // add parameter...
             'hello' => $hello,
             'form' => $form->createView(),
@@ -85,7 +71,6 @@ class PostArticleAdminController extends AbstractController
     {
         $article = $app['postarticle.repository.postarticle']->getArticle($id);
 
-        // $postedDate = $article->getCreateDate();
 
         $form = $app['form.factory']->createBuilder('postarticle_config',$article)->getForm();
 

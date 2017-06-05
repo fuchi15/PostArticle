@@ -9,8 +9,4 @@
     {% autoescape %}
         {{ content|raw }}
     {% endautoescape %}
-    <script type="text/javascript">
-    var $content = $('.test').text();
-    $('.test').text($content.replace('"',''));
-    </script>
 {% endblock %}
