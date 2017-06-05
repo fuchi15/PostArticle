@@ -8,7 +8,11 @@
         <div class="col-md-12">
             <p class="text-danger">{{ hello }}</p>
             {{ form_start(form, {'action': 'store', 'methods': 'post'}) }}
-            {{ form_widget(form) }}
+            <h3>タイトル</h3>
+            {{ form_widget(form.title) }}
+            <p>内容</p>
+            {{ form_widget(form.content) }}
+            {{ form_widget(form.author, { 'value': app.user.id }) }}
             {{ form_end(form) }}
         </div>
     </div>

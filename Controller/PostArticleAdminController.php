@@ -30,6 +30,17 @@ class PostArticleAdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
+    public function list(Application $app, Request $request)
+    {
+        $articles = $app['postarticle.repository.postarticle']->getList();
+
+        return $app->render('PostArticle/Resource/template/admin/list.twig', array(
+            // add parameter...
+            'hello' => 'Admin List',
+            'articles' => $articles
+        ));
+    }
+
     public function store(Application $app, Request $request)
     {
         $hello = 'Hello';
@@ -42,7 +53,7 @@ class PostArticleAdminController extends AbstractController
             $article = new PostArticle();
             $article->setTitle($data['title']);
             $article->setContent($data['content']);
-            $article->setAuthor(2);
+            $article->setAuthor($data['author']);
             $em = $app['orm.em'];
             $em->persist($article);
             $em->flush();
@@ -56,21 +67,9 @@ class PostArticleAdminController extends AbstractController
         ));
     }
 
-    public function list(Application $app, Request $request)
-    {
-        $articles = $app['postarticle.repository.postarticle']->getList();
-
-        return $app->render('PostArticle/Resource/template/admin/list.twig', array(
-            // add parameter...
-            'hello' => 'Admin List',
-            'articles' => $articles
-        ));
-    }
-
     public function edit(Application $app, Request $request, $id)
     {
         $article = $app['postarticle.repository.postarticle']->getArticle($id);
-
 
         $form = $app['form.factory']->createBuilder('postarticle_config',$article)->getForm();
 
@@ -85,5 +84,18 @@ class PostArticleAdminController extends AbstractController
             'form' => $form->createView(),
             'article' => $article
         ));
+    }
+
+    public function delete(Application $app, Request $request, $id)
+    {
+        $article = $app['postarticle.repository.postarticle']->getArticle($id);
+
+        // $Customer = $app['orm.em']->getRepository('Eccube\Entity\Customer')->find($id);
+
+        // $em = $app['orm.em'];
+        // $em->remove($article);
+        // $em->flush();
+
+        // return $app->redirect($app->url('admin_PostArticle_list'));
     }
 }

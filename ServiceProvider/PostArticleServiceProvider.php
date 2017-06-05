@@ -35,6 +35,7 @@ class PostArticleServiceProvider implements ServiceProviderInterface
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/store', '\Plugin\PostArticle\Controller\PostArticleAdminController::store')->bind('admin_PostArticle_store');
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/list', '\Plugin\PostArticle\Controller\PostArticleAdminController::list')->bind('admin_PostArticle_list');
         $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/edit/{id}', '\Plugin\PostArticle\Controller\PostArticleAdminController::edit')->assert('id', '\d+')->bind('admin_PostArticle_edit');
+        $app->match('/' . $app["config"]["admin_route"]  . '/plugin/PostArticle/delete/{id}', '\Plugin\PostArticle\Controller\PostArticleAdminController::delete')->assert('id', '\d+')->bind('admin_PostArticle_delete');
 
         // Form
         $app['form.types'] = $app->share($app->extend('form.types', function ($types) use ($app) {
